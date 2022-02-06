@@ -16,7 +16,9 @@ func AddPastes(pastes []models.Paste) {
 		// Inserting the paste into the database.
 		_, err := db.Exec("INSERT INTO pastes (title, content, author, date) VALUES (?, ?, ?, ?)", paste.Title, content, paste.Author, paste.Date)
 		if err != nil {
-			log.Println("Error inserting paste into database:", err)
+			if !strings.Contains(err.Error(), "Error 1062: Duplicate entry") {
+				log.Println("Error inserting paste into database:", err.Error())
+			}
 		}
 	}
 }
