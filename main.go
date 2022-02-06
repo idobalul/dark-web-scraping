@@ -1,24 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"strings"
+
+	"github.com/idobalul/dark-web-scraping/db"
+	"github.com/idobalul/dark-web-scraping/models"
 
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/proxy"
 )
 
-type Paste struct {
-	Title   string
-	Content []string
-	Author  string
-	Date    string
-}
-
-var pastes []Paste
+var pastes []models.Paste
 
 func main() {
+	// Connect to the database.
+	db.ConnectToDB()
+
 	// Initiate the collector
 	c := colly.NewCollector()
 
@@ -52,7 +50,7 @@ func main() {
 			date := strings.SplitAfter(authorAndDate[1], "UTC")[0]
 
 			// add the paste to the pastes slice
-			pastes = append(pastes, Paste{
+			pastes = append(pastes, models.Paste{
 				Title:   title,
 				Content: content,
 				Author:  author,
@@ -63,5 +61,5 @@ func main() {
 
 	c.Visit("http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all")
 	c.Wait()
-	fmt.Printf("%+v\n", pastes)
+	db.AddPastes(pastes)
 }
