@@ -16,6 +16,11 @@ var pastes []models.Paste
 // Scrape is the main function for the scraper.
 // It scrapes the pastebin and stores the pastes in the database.
 func Scrape() {
+	log.Println("Scraping the dark web...")
+
+	// Clearing the pastes array before scraping.
+	pastes = []models.Paste{}
+
 	// Initiate the collector
 	c := colly.NewCollector()
 

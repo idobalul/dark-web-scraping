@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/idobalul/dark-web-scraping/controllers"
@@ -12,9 +13,6 @@ import (
 // scrapeRouter initialize the scrape router.
 func scrapeRouter(rg *gin.RouterGroup) {
 	rg.GET("/scrape", func(c *gin.Context) {
-		// Scraping the dark web.
-		controllers.Scrape()
-
 		// Getting the pastes from the database.
 		pastes, err := db.GetPastes()
 		// If there is an error, send to the client status 500.
@@ -22,7 +20,14 @@ func scrapeRouter(rg *gin.RouterGroup) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
 
+		// Get the categories stats.
+		results, err := controllers.Categorize(pastes)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Printf("%+v\n", results)
+
 		// If there is no error, send the pastes to the client.
-		c.JSON(http.StatusOK, gin.H{"pastes": pastes})
+		c.JSON(http.StatusOK, gin.H{"pastes": pastes, "stats": results})
 	})
 }
