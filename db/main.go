@@ -24,5 +24,5 @@ func ConnectToDB() {
 		log.Fatal(pingErr)
 	}
 
-	fmt.Println("Connected")
+	fmt.Println("Connected to the database.")
 }
