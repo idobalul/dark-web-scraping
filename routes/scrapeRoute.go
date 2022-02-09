@@ -25,7 +25,6 @@ func scrapeRouter(rg *gin.RouterGroup) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Printf("%+v\n", results)
 
 		// If there is no error, send the pastes to the client.
 		c.JSON(http.StatusOK, gin.H{"pastes": pastes, "stats": results})

@@ -19,7 +19,7 @@ type Results struct {
 var (
 	cryptoKeyWords  = []string{"bitcion", "generator"}
 	hackingKeyWords = []string{"hacker", "hacking"}
-	marketKeyWords  = []string{"market", "shop", "buy", "payment"}
+	marketKeyWords  = []string{"market", "shop", "buy", "payment", "selling"}
 	scamKeyWords    = []string{"scam", "get $"}
 	adultKeyWords   = []string{"c.p", "loli", "sex", "s3x", "porn", "child", "teen"}
 )

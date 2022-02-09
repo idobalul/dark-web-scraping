@@ -29,7 +29,6 @@ func Run() {
 			<-ticker.C
 			// Scraping the dark web.
 			controllers.Scrape()
-
 		}
 	}()
 
