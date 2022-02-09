@@ -25,7 +25,7 @@ func Scrape() {
 	c := colly.NewCollector()
 
 	// Use proxy to connect to TOR
-	rp, err := proxy.RoundRobinProxySwitcher("socks5://127.0.0.1:9050")
+	rp, err := proxy.RoundRobinProxySwitcher("socks5://torproxy:9050")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -63,7 +63,10 @@ func Scrape() {
 		}
 	})
 
-	c.Visit("http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all")
+	err = c.Visit("http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all")
+	if err != nil {
+		log.Println(err)
+	}
 	c.Wait()
 	db.AddPastes(pastes)
 }

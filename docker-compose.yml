@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  torproxy:
+    image: dperson/torproxy
+    restart: always
+    ports:
+      - 9050:9050
+      - 8118:8118
+    expose:
+      - 9050
+      - 8118
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: scraper
+      MYSQL_USER: scraper
+      MYSQL_PASSWORD: 1234
+    ports:
+      - 3306:3306
+    volumes:
+      - /volumes:/docker-entrypoint-initdb.d
+  sever:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - torproxy
